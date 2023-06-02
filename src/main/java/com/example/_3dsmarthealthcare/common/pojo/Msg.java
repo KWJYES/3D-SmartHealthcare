@@ -3,7 +3,8 @@ package com.example._3dsmarthealthcare.common.pojo;
 public class Msg {
     public int code;
     public String msg;
-    public final static int success=200;
+    public final static int success =200;
+    public final static int failure =500;
     public final static int user_not_exist=-201;
     public final static int account_or_password_error =-202;
     public final static int request_body_or_param_error=-203;

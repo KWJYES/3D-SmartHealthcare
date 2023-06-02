@@ -2,11 +2,11 @@ package com.example._3dsmarthealthcare.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example._3dsmarthealthcare.entity.User;
-import com.example._3dsmarthealthcare.common.pojo.Response;
+import com.example._3dsmarthealthcare.common.pojo.ResponseResult;
 
 import java.util.Map;
 
 public interface UserService extends IService<User> {
-    Response login(Map dataMap);
-    Response signup(User user, String captcha);
+    ResponseResult login(Map<String, String> dataMap);
+    ResponseResult signup(User user, String captcha);
 }
