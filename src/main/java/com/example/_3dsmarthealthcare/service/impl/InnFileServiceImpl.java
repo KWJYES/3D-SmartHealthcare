@@ -1,11 +1,13 @@
-package com.example._3dsmarthealthcare.controller;
+package com.example._3dsmarthealthcare.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example._3dsmarthealthcare.common.pojo.ResponseResult;
+import com.example._3dsmarthealthcare.entity.InnFile;
+import com.example._3dsmarthealthcare.mapper.InnFileMapper;
+import com.example._3dsmarthealthcare.service.InnFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +18,14 @@ import java.util.Date;
 import java.util.UUID;
 
 @Slf4j
-@RestController
-@RequestMapping("/file")
-public class FileController {
+@Service
+public class InnFileServiceImpl extends ServiceImpl<InnFileMapper, InnFile> implements InnFileService {
     @Value(("${file-save-path}"))
     private String fileSavePath;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd/");
 
-    @PostMapping("/uploadInn")
-    public ResponseResult<?> uploadInnFile(MultipartFile file, HttpServletRequest request) {
+    @Override
+    public ResponseResult<?> uploadInnFile(MultipartFile file, HttpServletRequest request){
         //1.后半段目录：  2020/03/15
         String directory = simpleDateFormat.format(new Date());
         /**
