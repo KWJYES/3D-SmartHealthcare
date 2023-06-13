@@ -24,6 +24,11 @@ public class UserController {
         return userService.login(dataMap);
     }
 
+    @GetMapping("/test")
+    public ResponseResult<?> noLogin(){
+        return ResponseResult.success();
+    }
+
 }
 
 

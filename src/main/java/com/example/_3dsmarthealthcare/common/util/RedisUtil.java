@@ -18,6 +18,10 @@ public class RedisUtil {
         return redisTemplate.opsForValue().get(key);
     }
 
+    public void expire(String key,int cacheTime,TimeUnit timeUnit){
+        redisTemplate.expire(key, cacheTime,timeUnit);
+    }
+
     public void remove(String key){
         redisTemplate.delete(key);
     }

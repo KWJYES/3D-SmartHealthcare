@@ -12,6 +12,7 @@ public class Msg {
     public final static int param_is_null=-205;
     public final static int captcha_expired =-206;
     public final static int captcha_error=-207;
+    public final static int no_login=-208;
 
     public Msg(int code, String msg) {
         this.code = code;

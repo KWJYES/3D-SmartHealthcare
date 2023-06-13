@@ -7,6 +7,6 @@ import com.example._3dsmarthealthcare.common.pojo.ResponseResult;
 import java.util.Map;
 
 public interface UserService extends IService<User> {
-    ResponseResult login(Map<String, String> dataMap);
-    ResponseResult signup(User user, String captcha);
+    ResponseResult<?> login(Map<String, String> dataMap);
+    ResponseResult<?> signup(User user, String captcha);
 }
