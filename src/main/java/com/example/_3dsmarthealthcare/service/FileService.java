@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface InnFileService extends IService<InnFile> {
-    ResponseResult<?> uploadInnFile(MultipartFile file, HttpServletRequest request);
+public interface FileService extends IService<InnFile> {
+    ResponseResult<?> uploadInn(MultipartFile file, HttpServletRequest request);
+    ResponseResult<?> uploadPdf(MultipartFile file, HttpServletRequest request);
 }

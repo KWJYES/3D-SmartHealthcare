@@ -28,14 +28,15 @@ public class WebConfig implements WebMvcConfigurer {
          * 就给我映射到本机的“E:/inn/”这个文件夹内，去找你要的资源
          * 注意：E:/inn/ 后面的 “/”一定要带上
          */
-        registry.addResourceHandler("/inn/**").addResourceLocations("file:" + fileSavePath);
+        registry.addResourceHandler("/inn/**").addResourceLocations("file:" + fileSavePath+"inn/");
+        registry.addResourceHandler("/img/**").addResourceLocations("file:" + fileSavePath+"img/");
+        registry.addResourceHandler("/pdf/**").addResourceLocations("file:" + fileSavePath+"pdf/");
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/signUp","/user/login", "/mail/getCaptcha");
-
+                .excludePathPatterns("/user/signUp","/user/login", "/mail/getCaptcha","/inn/**","/img/**","/pdf/**");
     }
 }
