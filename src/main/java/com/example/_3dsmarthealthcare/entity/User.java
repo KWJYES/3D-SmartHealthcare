@@ -10,7 +10,7 @@ public class User {
     public long id;
     public String email;
     public String password;
-    public String user_name;
+    public String userName;
     public String name;
-    public String sex;
+    public String sex;//男1女0
 }

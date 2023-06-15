@@ -13,4 +13,8 @@ public interface FileService extends IService<File> {
     ResponseResult<?> uploadPdf(MultipartFile file, HttpServletRequest request);
 
     void requestStaticResources(String key, HttpServletRequest request, HttpServletResponse response);
+
+    ResponseResult<?> getFiles(int typ, int page, int size);
+
+    ResponseResult<?> getDetail(long fileId, HttpServletRequest request);
 }

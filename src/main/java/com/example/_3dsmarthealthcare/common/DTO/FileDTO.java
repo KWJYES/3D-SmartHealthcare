@@ -1,7 +1,6 @@
 package com.example._3dsmarthealthcare.common.DTO;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.example._3dsmarthealthcare.entity.File;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -16,11 +15,11 @@ public class FileDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT",locale = "zh")
     public Date upload_time;
 
-    public FileDTO(long id, long uid, int type, String name, Date upload_time) {
-        this.id = id;
-        this.uid = uid;
-        this.type = type;
-        this.name = name;
-        this.upload_time = upload_time;
+    public FileDTO(File file) {
+        this.id = file.id;
+        this.uid = file.uid;
+        this.type = file.type;
+        this.name = file.name;
+        this.upload_time = file.uploadTime;
     }
 }

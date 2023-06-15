@@ -1,8 +1,11 @@
 package com.example._3dsmarthealthcare.config;
 
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.example._3dsmarthealthcare.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -41,5 +44,18 @@ public class WebConfig implements WebMvcConfigurer {
                         "/file/*.pdf","/file/*.inn","/file/*.jpg","/file/*.png",
                         "/pdf/**","/inn/**","/jpg/**","/png/**"
                 );
+    }
+
+    /**
+     * 分页操作是在MyBatisPlus的常规操作基础上增强得到，
+     * 内部是动态的拼写SQL语句，因此需要增强对应的功能，
+     * 使用MyBatisPlus拦截器实现
+     * @return
+     */
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor(){
+        MybatisPlusInterceptor mybatisPlusInterceptor=new MybatisPlusInterceptor();
+        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        return mybatisPlusInterceptor;
     }
 }

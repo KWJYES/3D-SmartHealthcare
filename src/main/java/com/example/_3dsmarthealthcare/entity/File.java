@@ -15,6 +15,6 @@ public class File {
     public String url;
     public String name;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT",locale = "zh")
-    public Date upload_time;
+    public Date uploadTime;
     public int type;
 }
