@@ -88,7 +88,8 @@ public class FileServiceImpl extends ServiceImpl<InnFileMapper, File> implements
         if (url==null)
             return;
         try {
-            request.getRequestDispatcher(url).forward(request,response);
+            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            request.getRequestDispatcher(url.replace(baseUrl,"")).forward(request,response);
         } catch (ServletException | IOException e) {
             log.error("重定向静态资源失败");
         }

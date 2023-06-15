@@ -38,8 +38,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/signUp","/user/login", "/mail/getCaptcha",
-                        "/inn/**","/img/**","/pdf/**",
-                        "/file/*.pdf"
+                        "/file/*.pdf","/file/*.inn","/file/*.jpg","/file/*.png",
+                        "/pdf/**","/inn/**","/jpg/**","/png/**"
                 );
     }
 }
