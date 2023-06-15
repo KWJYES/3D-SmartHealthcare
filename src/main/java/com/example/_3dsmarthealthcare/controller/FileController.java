@@ -27,7 +27,7 @@ public class FileController {
         return fileService.uploadPdf(file, request);
     }
 
-    @GetMapping("/{key:^.*\\.pdf$}")
+    @GetMapping("/{key:^.*\\.pdf|^.*\\.inn|^.*\\.jpg|^.*\\.png$}")
     public void requestStaticResources(@PathVariable String key, HttpServletRequest request, HttpServletResponse response){
         fileService.requestStaticResources(key,request,response);
     }
