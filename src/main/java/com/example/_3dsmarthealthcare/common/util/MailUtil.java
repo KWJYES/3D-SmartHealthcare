@@ -1,13 +1,11 @@
 package com.example._3dsmarthealthcare.common.util;
 
 import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.example._3dsmarthealthcare.common.pojo.MailRequest;
+import com.example._3dsmarthealthcare.common.DTO.MailRequest;
 import com.example._3dsmarthealthcare.service.impl.SendMailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,7 +18,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
-import java.text.MessageFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 

@@ -2,7 +2,7 @@ package com.example._3dsmarthealthcare.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example._3dsmarthealthcare.entity.User;
-import com.example._3dsmarthealthcare.common.pojo.ResponseResult;
+import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
 
 import java.util.Map;
 

@@ -4,12 +4,10 @@ package com.example._3dsmarthealthcare.interceptor;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example._3dsmarthealthcare.common.Context;
 import com.example._3dsmarthealthcare.common.UserIdThreadLocal;
-import com.example._3dsmarthealthcare.common.pojo.Msg;
-import com.example._3dsmarthealthcare.common.pojo.ResponseResult;
+import com.example._3dsmarthealthcare.common.DTO.Msg;
+import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
 import com.example._3dsmarthealthcare.common.util.RedisUtil;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 

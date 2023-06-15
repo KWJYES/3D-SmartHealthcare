@@ -1,14 +1,13 @@
 package com.example._3dsmarthealthcare.controller;
 
-import com.example._3dsmarthealthcare.common.pojo.ResponseResult;
+import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
 import com.example._3dsmarthealthcare.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -25,5 +24,10 @@ public class FileController {
     @PostMapping("/uploadPdf")
     public ResponseResult<?> uploadPdf(MultipartFile file, HttpServletRequest request) {
         return fileService.uploadPdf(file, request);
+    }
+
+    @GetMapping("/{key:^.+\\.(?i)(inn|pdf|jpg|png)$}")
+    public void requestStaticResources(@PathVariable String key, HttpServletRequest request, HttpServletResponse response){
+        fileService.requestStaticResources(key,request,response);
     }
 }

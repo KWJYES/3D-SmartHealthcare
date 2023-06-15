@@ -1,6 +1,6 @@
 package com.example._3dsmarthealthcare.service.impl;
 
-import com.example._3dsmarthealthcare.common.pojo.MailRequest;
+import com.example._3dsmarthealthcare.common.DTO.MailRequest;
 import com.example._3dsmarthealthcare.common.util.MailUtil;
 import com.example._3dsmarthealthcare.common.util.RedisUtil;
 import com.example._3dsmarthealthcare.service.SendMailService;
