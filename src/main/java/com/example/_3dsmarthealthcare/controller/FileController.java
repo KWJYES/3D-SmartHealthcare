@@ -17,9 +17,9 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    @PostMapping("/uploadInn")
-    public ResponseResult<?> uploadInn(MultipartFile file, HttpServletRequest request) {
-        return fileService.uploadInn(file, request);
+    @PostMapping("/uploadNii")
+    public ResponseResult<?> uploadNii(MultipartFile file, HttpServletRequest request) {
+        return fileService.uploadNii(file, request);
     }
 
     @PostMapping("/uploadPdf")
@@ -27,7 +27,7 @@ public class FileController {
         return fileService.uploadPdf(file, request);
     }
 
-    @GetMapping("/{key:^.*\\.pdf|^.*\\.inn|^.*\\.jpg|^.*\\.png$}")
+    @GetMapping("/{key:^.*\\.pdf|.*\\.nii|.*\\.jpg|.*\\.png|.*\\.nii\\.gz$}")
     public void requestStaticResources(@PathVariable String key, HttpServletRequest request, HttpServletResponse response){
         fileService.requestStaticResources(key,request,response);
     }
@@ -37,9 +37,9 @@ public class FileController {
         return fileService.getFiles(FileUtil.pdf,page,size);
     }
 
-    @GetMapping("/inn")
-    public ResponseResult<?> getPInnFile(@RequestParam int page,@RequestParam int size){
-        return fileService.getFiles(FileUtil.inn,page,size);
+    @GetMapping("/nii")
+    public ResponseResult<?> getNiiFile(@RequestParam int page, @RequestParam int size){
+        return fileService.getFiles(FileUtil.nii,page,size);
     }
 
     @GetMapping("/detail")

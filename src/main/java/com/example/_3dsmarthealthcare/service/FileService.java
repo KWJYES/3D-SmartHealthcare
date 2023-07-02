@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface FileService extends IService<File> {
-    ResponseResult<?> uploadInn(MultipartFile file, HttpServletRequest request);
+    ResponseResult<?> uploadNii(MultipartFile file, HttpServletRequest request);
     ResponseResult<?> uploadPdf(MultipartFile file, HttpServletRequest request);
 
     void requestStaticResources(String key, HttpServletRequest request, HttpServletResponse response);

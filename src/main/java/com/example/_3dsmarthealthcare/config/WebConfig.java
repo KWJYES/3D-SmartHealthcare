@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     /**
      * 图片保存路径，自动从yml文件中获取数据
-     * 示例： E:/inn/
+     * 示例： E:/nii/
      */
     @Value("${file-save-path}")
     private String fileSavePath;
@@ -27,11 +27,11 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         /**
          * 配置资源映射
-         * 意思是：如果访问的资源路径是以“/inn/”开头的，
-         * 就给我映射到本机的“E:/inn/”这个文件夹内，去找你要的资源
-         * 注意：E:/inn/ 后面的 “/”一定要带上
+         * 意思是：如果访问的资源路径是以“/nii/”开头的，
+         * 就给我映射到本机的“E:/nii/”这个文件夹内，去找你要的资源
+         * 注意：E:/nii/ 后面的 “/”一定要带上
          */
-        registry.addResourceHandler("/inn/**").addResourceLocations("file:" + fileSavePath+"inn/");
+        registry.addResourceHandler("/nii/**").addResourceLocations("file:" + fileSavePath+"nii/");
         registry.addResourceHandler("/img/**").addResourceLocations("file:" + fileSavePath+"img/");
         registry.addResourceHandler("/pdf/**").addResourceLocations("file:" + fileSavePath+"pdf/");
     }
@@ -41,8 +41,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/signUp","/user/login", "/mail/getCaptcha",
-                        "/file/*.pdf","/file/*.inn","/file/*.jpg","/file/*.png",
-                        "/pdf/**","/inn/**","/jpg/**","/png/**"
+                        "/file/*.pdf","/file/*.nii","/file/*.jpg","/file/*.png",
+                        "/pdf/**","/nii/**","/jpg/**","/png/**"
                 );
     }
 

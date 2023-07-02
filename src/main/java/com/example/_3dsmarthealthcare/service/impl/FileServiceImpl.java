@@ -11,7 +11,7 @@ import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
 import com.example._3dsmarthealthcare.common.util.FileUtil;
 import com.example._3dsmarthealthcare.common.util.RedisUtil;
 import com.example._3dsmarthealthcare.entity.File;
-import com.example._3dsmarthealthcare.mapper.InnFileMapper;
+import com.example._3dsmarthealthcare.mapper.NiiFileMapper;
 import com.example._3dsmarthealthcare.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,31 +30,31 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
-public class FileServiceImpl extends ServiceImpl<InnFileMapper, File> implements FileService {
+public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements FileService {
     @Autowired
     private FileUtil fileUtil;
     @Autowired
     private RedisUtil redisUtil;
 
     @Override
-    public ResponseResult<?> uploadInn(MultipartFile file, HttpServletRequest request) {
+    public ResponseResult<?> uploadNii(MultipartFile file, HttpServletRequest request) {
         String fn = file.getOriginalFilename();
         if (fn == null)
             return ResponseResult.failure("上传失败,上传文件名不能为空");
-        if (!fn.endsWith(".inn"))
-            return ResponseResult.failure(Msg.file_type_error, "上传失败上传的不是inn文件");
+        if (!fn.endsWith(".nii"))
+            return ResponseResult.failure(Msg.file_type_error, "上传失败上传的不是nii文件");
         //生成url
-        String url = fileUtil.saveFile(UserIdThreadLocal.get(), FileUtil.innStr, file, request);
+        String url = fileUtil.saveFile(UserIdThreadLocal.get(), FileUtil.niiStr, file, request);
         if (url == null)
-            return ResponseResult.failure("uploadInnFileIO异常");
+            return ResponseResult.failure("uploadNiiFileIO异常");
         //保存到数据库
-        File innFile = new File();
-        innFile.uid = Long.parseLong(UserIdThreadLocal.get());
-        innFile.uploadTime = new Date();
-        innFile.name = fn;
-        innFile.url = url;
-        innFile.type=FileUtil.inn;
-        save(innFile);
+        File niiFile = new File();
+        niiFile.uid = Long.parseLong(UserIdThreadLocal.get());
+        niiFile.uploadTime = new Date();
+        niiFile.name = fn;
+        niiFile.url = url;
+        niiFile.type=FileUtil.nii;
+        save(niiFile);
         //生成动态url
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/file";
         String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), fn.substring(fn.lastIndexOf(".")));
@@ -128,7 +128,7 @@ public class FileServiceImpl extends ServiceImpl<InnFileMapper, File> implements
         redisUtil.set(dynamicUrl, file.url, 30, TimeUnit.MINUTES);
         HashMap<String,Object> dataMap=new HashMap<>();
         FileDTO fileDTO=new FileDTO(file);
-        dataMap.put("flie",fileDTO);
+        dataMap.put("file",fileDTO);
         dataMap.put("url",baseUrl + "/" + dynamicUrl);
         return ResponseResult.success("success", dataMap);
     }

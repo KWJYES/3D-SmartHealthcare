@@ -1,6 +1,5 @@
 package com.example._3dsmarthealthcare.common.util;
 
-import com.example._3dsmarthealthcare.common.UserIdThreadLocal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,8 +16,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FileUtil {
     @Value(("${file-save-path}"))
     private String fileSavePath;
-    public static final String innStr = "/inn/";
-    public static final int inn = 0;
+    public static final String niiStr = "/nii/";
+    public static final int nii = 0;
     public static final String imgStr = "/img/";
     public static final int img = 1;
     public static final String pdfStr = "/pdf/";
@@ -55,7 +54,7 @@ public class FileUtil {
         //5.复制操作
         try {
             file.transferTo(newFile);
-            //协议 :// ip地址 ：端口号 / 文件目录(/fileType/userId/xxx.inn)
+            //协议 :// ip地址 ：端口号 / 文件目录(/fileType/userId/xxx.nii)
             String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + fileType + directory + newFileName;
             log.info("文件上传，访问URL：" + url);
             return url;
