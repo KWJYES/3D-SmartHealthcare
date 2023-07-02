@@ -23,12 +23,6 @@ public class UserController {
     public ResponseResult<?> login(@RequestBody Map dataMap) {
         return userService.login(dataMap);
     }
-
-    @GetMapping("/test")
-    public ResponseResult<?> noLogin(){
-        return ResponseResult.success();
-    }
-
 }
 
 
