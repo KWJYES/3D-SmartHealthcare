@@ -41,8 +41,8 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
         String fn = file.getOriginalFilename();
         if (fn == null)
             return ResponseResult.failure("上传失败,上传文件名不能为空");
-        if (!fn.endsWith(".nii"))
-            return ResponseResult.failure(Msg.file_type_error, "上传失败上传的不是nii文件");
+        if (!(fn.endsWith(".nii")||fn.endsWith(".nii.gz")))
+            return ResponseResult.failure(Msg.file_type_error, "上传失败上传的不是nii或nii.gz文件");
         //生成url
         String url = fileUtil.saveFile(UserIdThreadLocal.get(), FileUtil.niiStr, file, request);
         if (url == null)
