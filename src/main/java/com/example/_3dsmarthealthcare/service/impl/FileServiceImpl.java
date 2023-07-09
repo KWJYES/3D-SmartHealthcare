@@ -44,7 +44,7 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
         String fn = file.getOriginalFilename();
         if (fn == null)
             return ResponseResult.failure("上传失败,上传文件名不能为空");
-        if (!(fn.endsWith(".nii")||fn.endsWith(".nii.gz")))
+        if (!(fn.endsWith(".nii") || fn.endsWith(".nii.gz")))
             return ResponseResult.failure(Msg.file_type_error, "上传失败上传的不是nii或nii.gz文件");
         //生成url
         String url = fileUtil.saveFile(UserIdThreadLocal.get(), FileUtil.niiStr, file, request);
@@ -56,26 +56,26 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
         niiFile.uploadTime = new Date();
         niiFile.name = fn;
         niiFile.url = url;
-        niiFile.path=url.replace(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/",fileSavePath);
-        niiFile.type=FileUtil.nii;
+        niiFile.path = url.replace(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/", fileSavePath);
+        niiFile.type = FileUtil.nii;
         save(niiFile);
         //生成动态url
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/file";
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file";
         String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), fn.substring(fn.lastIndexOf(".")));
         //用redis设置动态url有效时间为30min
-        redisUtil.set(dynamicUrl, url, 30, TimeUnit.MINUTES);
+        redisUtil.set(dynamicUrl, url, 2, TimeUnit.HOURS);
         return ResponseResult.success("上传成功", baseUrl + "/" + dynamicUrl);
     }
 
     @Override
     public ResponseResult<?> uploadPdf(MultipartFile file, HttpServletRequest request) {
-        String fn=file.getOriginalFilename();
-        if (fn==null)
+        String fn = file.getOriginalFilename();
+        if (fn == null)
             return ResponseResult.failure("上传失败,上传文件名不能为空");
         if (!fn.endsWith(".pdf"))
-            return ResponseResult.failure(Msg.file_type_error,"上传失败上传的不是pdf文件");
-        String url=fileUtil.saveFile(UserIdThreadLocal.get(),FileUtil.pdfStr,file,request);
-        if(url==null)
+            return ResponseResult.failure(Msg.file_type_error, "上传失败上传的不是pdf文件");
+        String url = fileUtil.saveFile(UserIdThreadLocal.get(), FileUtil.pdfStr, file, request);
+        if (url == null)
             return ResponseResult.failure("uploadPdfFileIO异常");
         //保存到数据库
         File pdfFile = new File();
@@ -83,25 +83,25 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
         pdfFile.uploadTime = new Date();
         pdfFile.name = fn;
         pdfFile.url = url;
-        pdfFile.path=url.replace(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/",fileSavePath);
-        pdfFile.type=FileUtil.pdf;
+        pdfFile.path = url.replace(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/", fileSavePath);
+        pdfFile.type = FileUtil.pdf;
         save(pdfFile);
         //生成动态url
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/file";
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file";
         String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), fn.substring(fn.lastIndexOf(".")));
         //用redis设置动态url有效时间为30min
-        redisUtil.set(dynamicUrl, url, 30, TimeUnit.MINUTES);
+        redisUtil.set(dynamicUrl, url, 2, TimeUnit.HOURS);
         return ResponseResult.success("上传成功", baseUrl + "/" + dynamicUrl);
     }
 
     @Override
     public void requestStaticResources(String key, HttpServletRequest request, HttpServletResponse response) {
         String url = redisUtil.get(key);
-        if (url==null)
+        if (url == null)
             return;
         try {
             String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-            request.getRequestDispatcher(url.replace(baseUrl,"")).forward(request,response);
+            request.getRequestDispatcher(url.replace(baseUrl, "")).forward(request, response);
         } catch (ServletException | IOException e) {
             log.error("重定向静态资源失败");
         }
@@ -110,31 +110,42 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
     @Override
     public ResponseResult<?> getFiles(int type, int page, int size) {
         LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(File::getUid,UserIdThreadLocal.get());
-        Page<File> page1=new Page<>(page,size);
-        IPage<File> iPage=page(page1,queryWrapper);
-        List<File> fileList=iPage.getRecords();
-        List<FileDTO> fileDTOList=new ArrayList<>();
+        queryWrapper.eq(File::getUid, UserIdThreadLocal.get());
+        Page<File> page1 = new Page<>(page, size);
+        IPage<File> iPage = page(page1, queryWrapper);
+        List<File> fileList = iPage.getRecords();
+        List<FileDTO> fileDTOList = new ArrayList<>();
         for (File file : fileList) {
             fileDTOList.add(new FileDTO(file));
         }
-        return ResponseResult.success("success",fileDTOList);
+        return ResponseResult.success("success", fileDTOList);
     }
 
     @Override
     public ResponseResult<?> getDetail(long fileId, HttpServletRequest request) {
         LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(File::getId,fileId);
-        File file=getOne(queryWrapper);
+        queryWrapper.eq(File::getId, fileId);
+        File file = getOne(queryWrapper);
         //生成动态url
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/file";
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file";
         String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), file.name.substring(file.name.lastIndexOf(".")));
         //用redis设置动态url有效时间为30min
-        redisUtil.set(dynamicUrl, file.url, 30, TimeUnit.MINUTES);
-        HashMap<String,Object> dataMap=new HashMap<>();
-        FileDTO fileDTO=new FileDTO(file);
-        dataMap.put("file",fileDTO);
-        dataMap.put("url",baseUrl + "/" + dynamicUrl);
+        redisUtil.set(dynamicUrl, file.url, 2, TimeUnit.HOURS);
+        HashMap<String, Object> dataMap = new HashMap<>();
+        FileDTO fileDTO = new FileDTO(file);
+        dataMap.put("file", fileDTO);
+        dataMap.put("url", baseUrl + "/" + dynamicUrl);
         return ResponseResult.success("success", dataMap);
+    }
+
+    @Override
+    public ResponseResult<?> deleteFile(List<Long> fileId) {
+        LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
+        String uid = UserIdThreadLocal.get();
+        for (Long id : fileId) {
+            queryWrapper.eq(File::getId, id).eq(File::getUid, Long.parseLong(uid));
+            baseMapper.delete(queryWrapper);
+        }
+        return ResponseResult.success();
     }
 }

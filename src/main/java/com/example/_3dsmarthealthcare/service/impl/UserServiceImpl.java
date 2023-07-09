@@ -36,7 +36,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return ResponseResult.failure(Msg.user_not_exist, "user not exist");
         } else if (user.password.equals(password)) {
             String token=tokenUtil.createToken(user.email);//生成token
-            redisUtil.set("user_token" + token, String.valueOf(user.id),30, TimeUnit.MINUTES);
+            redisUtil.set("user_token" + token, String.valueOf(user.id),2, TimeUnit.HOURS);
             HashMap<String, Object> datamap=new HashMap<>();
             datamap.put("user",user);
             datamap.put("token",token);

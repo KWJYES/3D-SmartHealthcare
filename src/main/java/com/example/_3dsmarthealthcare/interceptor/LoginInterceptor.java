@@ -39,7 +39,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         // token续期
-        redisUtil.expire("user_token" + token, 30, TimeUnit.MINUTES);
+        redisUtil.expire("user_token" + token, 2, TimeUnit.HOURS);
         //登陆认证成功，保存userId,以便在controller或service中使用
         UserIdThreadLocal.set(userId);
         // 放行

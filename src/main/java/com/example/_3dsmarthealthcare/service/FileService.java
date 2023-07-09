@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface FileService extends IService<File> {
     ResponseResult<?> uploadNii(MultipartFile file, HttpServletRequest request);
@@ -17,4 +18,5 @@ public interface FileService extends IService<File> {
     ResponseResult<?> getFiles(int typ, int page, int size);
 
     ResponseResult<?> getDetail(long fileId, HttpServletRequest request);
+    ResponseResult<?> deleteFile(List<Long> fileId);
 }

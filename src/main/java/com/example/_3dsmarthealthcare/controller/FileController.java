@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 @RestController
@@ -47,7 +48,7 @@ public class FileController {
         return fileService.getDetail(fileId, request);
     }
     @PostMapping("/delete")
-    public ResponseResult<?> deleteFile(@RequestParam long fileId){
-
+    public ResponseResult<?> deleteFile(@RequestBody List<Long> fileIds){
+        return fileService.deleteFile(fileIds);
     }
 }
