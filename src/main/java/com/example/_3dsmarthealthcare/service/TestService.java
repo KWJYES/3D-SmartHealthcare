@@ -1,6 +1,6 @@
 package com.example._3dsmarthealthcare.service;
 
-import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
 
 public interface TestService {
     ResponseResult<?> test();

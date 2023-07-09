@@ -1,13 +1,10 @@
 package com.example._3dsmarthealthcare.service.impl;
 
-import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
 import com.example._3dsmarthealthcare.retrofit.RetrofitTemplate;
 import com.example._3dsmarthealthcare.service.TestService;
 import okhttp3.ResponseBody;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;

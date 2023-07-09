@@ -1,6 +1,6 @@
 package com.example._3dsmarthealthcare.controller;
 
-import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
 import com.example._3dsmarthealthcare.common.util.FileUtil;
 import com.example._3dsmarthealthcare.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +45,9 @@ public class FileController {
     @GetMapping("/detail")
     public ResponseResult<?> getFileDetail(@RequestParam long fileId, HttpServletRequest request){
         return fileService.getDetail(fileId, request);
+    }
+    @PostMapping("/delete")
+    public ResponseResult<?> deleteFile(@RequestParam long fileId){
+
     }
 }

@@ -38,13 +38,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/user/signUp","/user/login", "/mail/getCaptcha",
-                        "/file/*.pdf","/file/*.nii","/file/*.jpg","/file/*.png",
-                        "/pdf/**","/nii/**","/jpg/**","/png/**",
-                        "/test/**"
-                );
+//        registry.addInterceptor(new LoginInterceptor())
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/user/signUp","/user/login", "/mail/getCaptcha",
+//                        "/file/*.pdf","/file/*.nii","/file/*.jpg","/file/*.png",
+//                        "/pdf/**","/nii/**","/jpg/**","/png/**",
+//                        "/test/**"
+//                );
     }
 
     /**

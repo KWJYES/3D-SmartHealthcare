@@ -1,4 +1,4 @@
-package com.example._3dsmarthealthcare.entity;
+package com.example._3dsmarthealthcare.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

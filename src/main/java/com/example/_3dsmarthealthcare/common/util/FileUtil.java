@@ -50,6 +50,7 @@ public class FileUtil {
         log.info("文件后缀：{}", suffix);
         String newFileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
         //4.创建这个新文件
+
         File newFile = new File(fileSavePath + fileType + directory + newFileName);
         //5.复制操作
         try {

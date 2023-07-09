@@ -2,12 +2,12 @@ package com.example._3dsmarthealthcare.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example._3dsmarthealthcare.common.DTO.Msg;
+import com.example._3dsmarthealthcare.pojo.dto.Msg;
 import com.example._3dsmarthealthcare.common.util.RedisUtil;
 import com.example._3dsmarthealthcare.common.util.TokenUtil;
-import com.example._3dsmarthealthcare.entity.User;
+import com.example._3dsmarthealthcare.pojo.entity.User;
 import com.example._3dsmarthealthcare.mapper.UserMapper;
-import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
 import com.example._3dsmarthealthcare.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

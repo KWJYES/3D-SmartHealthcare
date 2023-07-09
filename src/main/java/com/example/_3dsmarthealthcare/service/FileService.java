@@ -1,8 +1,8 @@
 package com.example._3dsmarthealthcare.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
-import com.example._3dsmarthealthcare.entity.File;
+import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.entity.File;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;

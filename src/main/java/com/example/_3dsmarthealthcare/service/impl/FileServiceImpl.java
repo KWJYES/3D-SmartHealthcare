@@ -4,17 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example._3dsmarthealthcare.common.DTO.FileDTO;
+import com.example._3dsmarthealthcare.pojo.dto.FileDTO;
 import com.example._3dsmarthealthcare.common.UserIdThreadLocal;
-import com.example._3dsmarthealthcare.common.DTO.Msg;
-import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.dto.Msg;
+import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
 import com.example._3dsmarthealthcare.common.util.FileUtil;
 import com.example._3dsmarthealthcare.common.util.RedisUtil;
-import com.example._3dsmarthealthcare.entity.File;
+import com.example._3dsmarthealthcare.pojo.entity.File;
 import com.example._3dsmarthealthcare.mapper.NiiFileMapper;
 import com.example._3dsmarthealthcare.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements FileService {
+    @Value(("${file-save-path}"))
+    private String fileSavePath;
     @Autowired
     private FileUtil fileUtil;
     @Autowired
@@ -53,6 +56,7 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
         niiFile.uploadTime = new Date();
         niiFile.name = fn;
         niiFile.url = url;
+        niiFile.path=url.replace(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/",fileSavePath);
         niiFile.type=FileUtil.nii;
         save(niiFile);
         //生成动态url
@@ -79,6 +83,7 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
         pdfFile.uploadTime = new Date();
         pdfFile.name = fn;
         pdfFile.url = url;
+        pdfFile.path=url.replace(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/",fileSavePath);
         pdfFile.type=FileUtil.pdf;
         save(pdfFile);
         //生成动态url

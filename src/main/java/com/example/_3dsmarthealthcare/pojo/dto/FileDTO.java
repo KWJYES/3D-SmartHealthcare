@@ -1,6 +1,6 @@
-package com.example._3dsmarthealthcare.common.DTO;
+package com.example._3dsmarthealthcare.pojo.dto;
 
-import com.example._3dsmarthealthcare.entity.File;
+import com.example._3dsmarthealthcare.pojo.entity.File;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 

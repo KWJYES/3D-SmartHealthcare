@@ -1,7 +1,7 @@
 package com.example._3dsmarthealthcare.controller;
 
-import com.example._3dsmarthealthcare.common.DTO.ResponseResult;
-import com.example._3dsmarthealthcare.entity.User;
+import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.entity.User;
 import com.example._3dsmarthealthcare.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

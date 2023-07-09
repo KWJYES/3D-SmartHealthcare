@@ -1,7 +1,7 @@
 package com.example._3dsmarthealthcare.common.util;
 
 import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.example._3dsmarthealthcare.common.DTO.MailRequest;
+import com.example._3dsmarthealthcare.pojo.dto.MailRequest;
 import com.example._3dsmarthealthcare.service.impl.SendMailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

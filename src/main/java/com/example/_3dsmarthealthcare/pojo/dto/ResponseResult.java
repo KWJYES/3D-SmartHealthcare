@@ -1,4 +1,4 @@
-package com.example._3dsmarthealthcare.common.DTO;
+package com.example._3dsmarthealthcare.pojo.dto;
 
 import lombok.Data;
 
