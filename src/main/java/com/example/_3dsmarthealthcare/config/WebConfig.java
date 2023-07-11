@@ -31,9 +31,11 @@ public class WebConfig implements WebMvcConfigurer {
          * 就给我映射到本机的“E:/inn/”这个文件夹内，去找你要的资源
          * 注意：E:/inn/ 后面的 “/”一定要带上
          */
-        registry.addResourceHandler("/inn/**").addResourceLocations("file:" + fileSavePath+"inn/");
+        registry.addResourceHandler("/nii/**").addResourceLocations("file:" + fileSavePath+"nii/");
         registry.addResourceHandler("/img/**").addResourceLocations("file:" + fileSavePath+"img/");
         registry.addResourceHandler("/pdf/**").addResourceLocations("file:" + fileSavePath+"pdf/");
+        registry.addResourceHandler("/task/**").addResourceLocations("file:" + fileSavePath+"task/");
+        registry.addResourceHandler("/task_done/**").addResourceLocations("file:" + fileSavePath+"task_done/");
     }
 
     @Override
@@ -43,6 +45,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/user/signUp","/user/login", "/mail/getCaptcha",
                         "/file/*.pdf","/file/*.nii","/file/*.jpg","/file/*.png",
                         "/pdf/**","/nii/**","/jpg/**","/png/**",
+                        "/task/**","/task_done/**",
                         "/test/**"
                 );
     }

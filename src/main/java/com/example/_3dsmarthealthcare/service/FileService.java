@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface FileService extends IService<File> {
-    ResponseResult<?> uploadNii(MultipartFile file, HttpServletRequest request);
+    ResponseResult<?> uploadNii(MultipartFile[] file, HttpServletRequest request);
     ResponseResult<?> uploadPdf(MultipartFile file, HttpServletRequest request);
 
     void requestStaticResources(String key, HttpServletRequest request, HttpServletResponse response);
@@ -19,4 +19,6 @@ public interface FileService extends IService<File> {
 
     ResponseResult<?> getDetail(long fileId, HttpServletRequest request);
     ResponseResult<?> deleteFile(List<Long> fileId);
+
+    List<File> findFileByIds(List<Integer> fileIds);
 }

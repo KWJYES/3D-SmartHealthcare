@@ -14,6 +14,7 @@ import com.example._3dsmarthealthcare.pojo.entity.File;
 import com.example._3dsmarthealthcare.mapper.NiiFileMapper;
 import com.example._3dsmarthealthcare.service.FileService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,31 +41,35 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
     private RedisUtil redisUtil;
 
     @Override
-    public ResponseResult<?> uploadNii(MultipartFile file, HttpServletRequest request) {
-        String fn = file.getOriginalFilename();
-        if (fn == null)
-            return ResponseResult.failure("上传失败,上传文件名不能为空");
-        if (!(fn.endsWith(".nii") || fn.endsWith(".nii.gz")))
-            return ResponseResult.failure(Msg.file_type_error, "上传失败上传的不是nii或nii.gz文件");
-        //生成url
-        String url = fileUtil.saveFile(UserIdThreadLocal.get(), FileUtil.niiStr, file, request);
-        if (url == null)
-            return ResponseResult.failure("uploadNiiFileIO异常");
-        //保存到数据库
-        File niiFile = new File();
-        niiFile.uid = Long.parseLong(UserIdThreadLocal.get());
-        niiFile.uploadTime = new Date();
-        niiFile.name = fn;
-        niiFile.url = url;
-        niiFile.path = url.replace(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/", fileSavePath);
-        niiFile.type = FileUtil.nii;
-        save(niiFile);
-        //生成动态url
+    public ResponseResult<?> uploadNii(MultipartFile[] files, HttpServletRequest request) {
+        List<String> urlList = new ArrayList<>();
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file";
-        String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), fn.substring(fn.lastIndexOf(".")));
-        //用redis设置动态url有效时间为30min
-        redisUtil.set(dynamicUrl, url, 2, TimeUnit.HOURS);
-        return ResponseResult.success("上传成功", baseUrl + "/" + dynamicUrl);
+        for (MultipartFile file : files) {
+            String fn = file.getOriginalFilename();
+            if (fn == null)
+                return ResponseResult.failure("上传失败,上传文件名不能为空");
+            if (!(fn.endsWith(".nii") || fn.endsWith(".nii.gz")))
+                return ResponseResult.failure(Msg.file_type_error, "上传失败上传的不是nii或nii.gz文件");
+            //生成url
+            String url = fileUtil.saveFile(UserIdThreadLocal.get(), FileUtil.niiStr, file, request);
+            if (url == null)
+                return ResponseResult.failure("uploadNiiFileIO异常");
+            //保存到数据库
+            File niiFile = new File();
+            niiFile.uid = Long.parseLong(UserIdThreadLocal.get());
+            niiFile.uploadTime = new Date();
+            niiFile.name = fn;
+            niiFile.url = url;
+            niiFile.path = url.replace(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/", fileSavePath);
+            niiFile.type = FileUtil.nii;
+            save(niiFile);
+            //生成动态url
+            String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), fn.substring(fn.lastIndexOf(".")));
+            //用redis设置动态url有效时间为30min
+            redisUtil.set(dynamicUrl, url, 2, TimeUnit.HOURS);
+            urlList.add(baseUrl + "/" + dynamicUrl);
+        }
+        return ResponseResult.success("上传成功", urlList);
     }
 
     @Override
@@ -140,12 +145,26 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
 
     @Override
     public ResponseResult<?> deleteFile(List<Long> fileId) {
-        LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
         String uid = UserIdThreadLocal.get();
         for (Long id : fileId) {
+            LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(File::getId, id).eq(File::getUid, Long.parseLong(uid));
+            FileUtils.deleteQuietly(new java.io.File(getOne(queryWrapper).path));
             baseMapper.delete(queryWrapper);
         }
         return ResponseResult.success();
+    }
+
+    @Override
+    public List<File> findFileByIds(List<Integer> fileIds) {
+        List<File> fileList = new ArrayList<>();
+        String uid = UserIdThreadLocal.get();
+        for (Integer fileId : fileIds) {
+            Long id = Long.parseLong(String.valueOf(fileId));
+            LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(File::getId, id).eq(File::getUid, Long.parseLong(uid));
+            fileList.add(getOne(queryWrapper));
+        }
+        return fileList;
     }
 }

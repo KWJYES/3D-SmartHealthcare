@@ -19,8 +19,8 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping("/uploadNii")
-    public ResponseResult<?> uploadNii(MultipartFile file, HttpServletRequest request) {
-        return fileService.uploadNii(file, request);
+    public ResponseResult<?> uploadNii(MultipartFile[] files, HttpServletRequest request) {
+        return fileService.uploadNii(files, request);
     }
 
     @PostMapping("/uploadPdf")
