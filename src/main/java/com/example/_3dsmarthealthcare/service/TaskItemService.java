@@ -1,6 +1,7 @@
 package com.example._3dsmarthealthcare.service;
 
 import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.dto.TaskItemDTO;
 import com.example._3dsmarthealthcare.pojo.entity.File;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,7 @@ public interface TaskItemService {
     ResponseResult<?> appendItems(long taskId, List<File> fileId, HttpServletRequest request);
     ResponseResult<?> removeItems(long taskId, List<Integer> itemId);
 
-    void updateFinishedPath(long taskId);
+    List<TaskItemDTO> updateFinishedPath(long taskId);
 
     ResponseResult<?> getTaskItemsByTaskId(long taskId, HttpServletRequest request);
 }

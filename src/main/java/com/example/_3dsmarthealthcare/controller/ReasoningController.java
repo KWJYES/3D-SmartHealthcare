@@ -1,6 +1,7 @@
 package com.example._3dsmarthealthcare.controller;
 
 import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
+import com.example._3dsmarthealthcare.pojo.dto.TaskItemDTO;
 import com.example._3dsmarthealthcare.pojo.entity.Task;
 import com.example._3dsmarthealthcare.service.ReasoningService;
 import com.example._3dsmarthealthcare.service.TaskItemService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/reasoning")
@@ -30,8 +33,8 @@ public class ReasoningController {
         String flaskRes=reasoningService.reasoning(String.valueOf(taskId));
         if (flaskRes.equals("ok")){
             taskService.finishedTask(taskId);
-            taskItemService.updateFinishedPath(taskId);
-            return ResponseResult.success(flaskRes);
+            List<TaskItemDTO> taskItemDTOS= taskItemService.updateFinishedPath(taskId);
+            return ResponseResult.success(flaskRes,taskItemDTOS);
         }else {
             return ResponseResult.failure(flaskRes);
         }

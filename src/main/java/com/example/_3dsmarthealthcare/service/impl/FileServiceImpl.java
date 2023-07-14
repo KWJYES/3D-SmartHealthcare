@@ -44,8 +44,10 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
     public ResponseResult<?> uploadNii(MultipartFile[] files, HttpServletRequest request) {
         List<String> urlList = new ArrayList<>();
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file";
+        log.info("文件个数={}",files.length);
         for (MultipartFile file : files) {
             String fn = file.getOriginalFilename();
+            log.info("文件名称={}",fn);
             if (fn == null)
                 return ResponseResult.failure("上传失败,上传文件名不能为空");
             if (!(fn.endsWith(".nii") || fn.endsWith(".nii.gz")))

@@ -1,24 +1,83 @@
-file-save-path: E:\IDEAProgects\3D-SmartHealthcare-Data\
+#file-save-path: E:\IDEAProgects\3D-SmartHealthcare-Data\
+file-save-path: J:\IDEAProgects\3D-SmartHealthcare-Data\
+token-key-id: "0cdf78171b2741dd8f16d1d4ac9252b9"
+token-private-key: "{\"kty\":\"RSA\",\"kid\":\"0cdf78171b2741dd8f16d1d4ac9252b9\",\"alg\":\"RS256\",\"n\":\"hct3C2hMu805bQV-REzqE6KKmh5XpI1SbwzyUnZhgkQb5GRpAxmDWLnRJ4wPZb7Fp67M2AozD_rSZTaecZu9UtQA6L-i4B9X4ejvZ0nEy2LZCv8AAoI2pAkS6CJwBfIT7OA0eVzzkc-7nzJIGiUXqGfMt0AUTQPBVqS8bF_1hw5m73PPK5GgjV0rUFKL0hAJbEHH3p_-4xzdupozpN9LBMIF3oRq0S1fWUXKSqb8bC_5T1kP20SSoCYwCvj26nxRychM4RP6j1XVC_7tETeNhIFsd1DP2fhY-QYCwOUBuF4oBlb2JAGC_Bp9MCvlRihKzAr8IbV7TV8bpUdbWwX3Qw\",\"e\":\"AQAB\",\"d\":\"LrOizhyODE_KZ7-vH3AplMj70Gge95VM3O6L9zTTPIFBqytRbH-PVX0nAMLm7QD2RV3CqvaEdGN85U93ZviR0UOnPZcG52yJZJXGWytowgWy9R-lhTqmkAOK0fSTXb_uLJTmPCax7oewWhVXDak85M-2qZB4hZl19yRxkPK95XIiP0ovm1y7FjejC55Y46eEV-q8Cl86oa2KNAcm5mITkLoZQnoc5mknKym5t1VthdVc6thT3ZiZfcPAXR8YhBs4OKvn0DrLF_KLTx5hSn4M-sLJQbw9ObD25CGRJz6OXND5xAG4urz4TzH9QteAoIZBsuvKHZeT1weTxv44bTiw4Q\",\"p\":\"3UQYXDxVMg0X3w73zUaurX_g7BoHh3d33qdHuS_mQ1Uuqkm4k0O91BCMCrBmWq9fRCWCJyJ8Ol2aWMgYtyILUtzC8E-kkix1RrPRK5np2nqbbGTJa2S2kLOja2AYCwn7s7Vqqn14-cN73eS6bAi08vOzt0tHQu8duPhEKQHoer0\",\"q\":\"msw1XjEfnyAiR23gzdS-EDw--So3Rk4ky9lWviqQzL8LhjvnYNW_9zRNua6VoJT9FPQ-gVekOy6oVMRhr4VBRlL9Y2pT7kljfw_HJ3inXZ8kIZgVy52E658hRIM6CIEAksnsYHXP5iW_pvwR3Zk6M1mZmJ5eRL0GfZgs4KloWf8\",\"dp\":\"AnHCIyK3fjoOzXQI4MerHlePUIxpEOIM_PS0IiOZU50ZSuBNnbLd4f3czjFssAvH7aTMb0o-PRbToa90NnG11lCCBs2ab9L16LYL1YN5xeQc23Gxl_Ig4jBZ2dHR8i1GDpIuf3urXnb-Y1EnjhH6jcSLc7btLpwdo_F6L0nKG7E\",\"dq\":\"gevU-vpl3Oteee8J2Bevcfbur7ez7skVbxY6DJ-zKnVKGd7bQtYEKVn3xll2cfG6PEUG1Q4W5Ckz1PmCN4uzDnAHBdKvIPbtkC5Q65sDdbtk2uFHob7SWeQUSumM4qhLL-hUAV3AIR0bru4vnHrHc2PHW2XIHw87jFwVhnYJBEc\",\"qi\":\"lozdTgAzREJmxEXYJZZOUV1I5HuztQBsDOb9RapZM3PfXT_ULDxjblkmpV9urA9edz-qsqKdrGpr5X7vW6AS6LAA3Ks1EK94VYFwQR3i1nU_zVmxtyopfcJP7LB-t1JoOHgVR5lbEAc2JQSf0Yow4_czeHkzKLEevtJWDBnABLM\"}"
+token-public-key: "{\"kty\":\"RSA\",\"kid\":\"0cdf78171b2741dd8f16d1d4ac9252b9\",\"alg\":\"RS256\",\"n\":\"hct3C2hMu805bQV-REzqE6KKmh5XpI1SbwzyUnZhgkQb5GRpAxmDWLnRJ4wPZb7Fp67M2AozD_rSZTaecZu9UtQA6L-i4B9X4ejvZ0nEy2LZCv8AAoI2pAkS6CJwBfIT7OA0eVzzkc-7nzJIGiUXqGfMt0AUTQPBVqS8bF_1hw5m73PPK5GgjV0rUFKL0hAJbEHH3p_-4xzdupozpN9LBMIF3oRq0S1fWUXKSqb8bC_5T1kP20SSoCYwCvj26nxRychM4RP6j1XVC_7tETeNhIFsd1DP2fhY-QYCwOUBuF4oBlb2JAGC_Bp9MCvlRihKzAr8IbV7TV8bpUdbWwX3Qw\",\"e\":\"AQAB\"}"
 server:
   port: 8080
   tomcat:
     uri-encoding: UTF-8
+    max-connections: 100
+    connection-timeout: 60000
+    accept-count: 100
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB        # 设置单个文件最大大小为10MB
+      max-request-size: 500MB    # 设置多个文件大小为100MB
   application:
     name: reggie_take_out
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://localhost:3306/3d_smarthealthcare?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: 123456
   thymeleaf:
     prefix: classpath:/static/
     suffix: .html
-    cache: false #????
+    cache: false
+  #邮箱基本配置
+  mail:
+    #配置smtp服务主机地址
+    host: smtp.qq.com
+    #发送者邮箱
+    username: weikjie@foxmail.com
+    #配置密码,注意不是真正的密码，而是刚刚申请到的授权码
+    password: mdnrvwwzjgoccbda
+    #端口号465或587
+    port: 587
+    #默认的邮件编码为UTF-8
+    default-encoding: UTF-8
+    #其他参数
+    properties:
+      mail:
+        #配置SSL 加密工厂
+        smtp:
+          ssl:
+            #本地测试，先放开ssl
+            enable: false
+            required: false
+          #开启debug模式，这样邮件发送过程的日志会在控制台打印出来，方便排查错误
+        debug: true
+  redis:
+    # Redis服务器地址
+    host: localhost
+    # Redis服务器端口号
+    port: 6379
+    # 使用的数据库索引，默认是0
+    database: 0
+    # 连接超时时间
+    timeout: 180000
+    # 设置密码
+    password:
+    lettuce:
+      pool:
+        # 最大阻塞等待时间，负数表示没有限制
+        max-wait: -1
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中最大连接数，负数表示没有限制
+        max-active: 200
 mybatis-plus:
   configuration:
-    #???????????????????????????????????????
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:

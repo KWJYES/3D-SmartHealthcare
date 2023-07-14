@@ -5,16 +5,22 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example._3dsmarthealthcare.common.UserIdThreadLocal;
 import com.example._3dsmarthealthcare.mapper.TaskMapper;
 import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
-import com.example._3dsmarthealthcare.pojo.entity.File;
 import com.example._3dsmarthealthcare.pojo.entity.Task;
+import com.example._3dsmarthealthcare.pojo.entity.TaskItem;
 import com.example._3dsmarthealthcare.service.TaskService;
+import lombok.SneakyThrows;
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements TaskService {
+    @Value(("${file-save-path}"))
+    private String fileSavePath;
     @Override
     public ResponseResult<?> create(String taskName) {
         Task task = new Task();
@@ -26,10 +32,15 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         return ResponseResult.success("ok");
     }
 
+    @SneakyThrows
     @Override
     public ResponseResult<?> delete(long taskId) {
         LambdaQueryWrapper<Task> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Task::getId, taskId).eq(Task::getUid, Long.parseLong(UserIdThreadLocal.get()));
+        String loadPath=fileSavePath+"task\\"+UserIdThreadLocal.get()+"\\"+taskId;
+        String targetPath=fileSavePath+"task_done\\"+UserIdThreadLocal.get()+"\\"+taskId;
+        FileUtils.deleteDirectory(new File(loadPath));
+        FileUtils.deleteDirectory(new File(targetPath));
         baseMapper.delete(queryWrapper);
         return ResponseResult.success();
     }

@@ -14,6 +14,7 @@ public class FileDTO {
     public String name;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT",locale = "zh")
     public Date upload_time;
+    public long pid;
 
     public FileDTO(File file) {
         this.id = file.id;
@@ -21,5 +22,6 @@ public class FileDTO {
         this.type = file.type;
         this.name = file.name;
         this.upload_time = file.uploadTime;
+        this.pid= file.pid;
     }
 }

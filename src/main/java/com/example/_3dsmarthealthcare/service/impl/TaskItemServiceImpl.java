@@ -67,7 +67,7 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
     }
 
     @Override
-    public void updateFinishedPath(long taskId) {
+    public List<TaskItemDTO> updateFinishedPath(long taskId) {
         LambdaQueryWrapper<TaskItem> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(TaskItem::getTaskId, taskId).eq(TaskItem::getUid, Long.parseLong(UserIdThreadLocal.get()));
         List<TaskItem> taskItems = baseMapper.selectList(queryWrapper);
@@ -85,6 +85,11 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
             resList.add(taskItem);
         }
         updateBatchById(resList);
+        List<TaskItemDTO> taskItemDTOS=new ArrayList<>();
+        for (TaskItem taskItem:resList){
+            taskItemDTOS.add(new TaskItemDTO(taskItem.id,taskItem.url,taskItem.name,taskItem.appendTime,taskItem.uid,taskItem.taskId,taskItem.pid));
+        }
+        return taskItemDTOS;
     }
 
     @Override
@@ -97,7 +102,7 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
         for (TaskItem taskItem : taskItems) {
             String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), taskItem.name.substring(taskItem.name.lastIndexOf(".")));
             redisUtil.set(dynamicUrl, taskItem.url, 2, TimeUnit.HOURS);
-            taskItemDTOS.add(new TaskItemDTO(taskItem.id, baseUrl + "/" + dynamicUrl, taskItem.name, taskItem.appendTime, taskItem.uid, taskItem.taskId));
+            taskItemDTOS.add(new TaskItemDTO(taskItem.id, baseUrl + "/" + dynamicUrl, taskItem.name, taskItem.appendTime, taskItem.uid, taskItem.taskId, taskItem.pid));
         }
         return ResponseResult.success("ok", taskItemDTOS);
     }

@@ -17,4 +17,5 @@ public class TaskItem {
     public Date appendTime;
     public long uid;
     public long taskId;
+    public long pid;
 }

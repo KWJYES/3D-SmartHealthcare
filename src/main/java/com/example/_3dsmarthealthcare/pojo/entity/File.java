@@ -18,4 +18,5 @@ public class File {
     public Date uploadTime;
     public int type;
     public String path;
+    public long pid;
 }

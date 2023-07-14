@@ -15,13 +15,15 @@ public class TaskItemDTO {
     public Date appendTime;
     public long uid;
     public long taskId;
+    public long pid;
 
-    public TaskItemDTO(long id, String url, String name, Date appendTime, long uid, long taskId) {
+    public TaskItemDTO(long id, String url, String name, Date appendTime, long uid, long taskId,long pid) {
         this.id = id;
         this.url = url;
         this.name = name;
         this.appendTime = appendTime;
         this.uid = uid;
         this.taskId = taskId;
+        this.pid=pid;
     }
 }

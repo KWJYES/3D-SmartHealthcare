@@ -14,6 +14,6 @@ public class TestController {
     private TestService testService;
     @GetMapping("/hello")
     public ResponseResult<?> hello(){
-        return testService.test();
+        return ResponseResult.success();
     }
 }
