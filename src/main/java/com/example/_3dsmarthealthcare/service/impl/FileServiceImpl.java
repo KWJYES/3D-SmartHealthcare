@@ -42,8 +42,10 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
 
     @Override
     public ResponseResult<?> uploadNii(MultipartFile[] files, HttpServletRequest request) {
-        List<String> urlList = new ArrayList<>();
+        List<FileDTO> urlList = new ArrayList<>();
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file";
+        if (files==null)
+            return ResponseResult.failure("fileList为空");
         log.info("文件个数={}",files.length);
         for (MultipartFile file : files) {
             String fn = file.getOriginalFilename();
@@ -66,10 +68,17 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
             niiFile.type = FileUtil.nii;
             save(niiFile);
             //生成动态url
-            String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), fn.substring(fn.lastIndexOf(".")));
+            String suffix;
+            if (fn.endsWith(".nii.gz"))
+                suffix = ".nii.gz";
+            else
+                suffix = fn.substring(fn.lastIndexOf("."));//后缀
+            String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), suffix);
             //用redis设置动态url有效时间为30min
             redisUtil.set(dynamicUrl, url, 2, TimeUnit.HOURS);
-            urlList.add(baseUrl + "/" + dynamicUrl);
+            FileDTO fileDTO=new FileDTO(niiFile);
+            fileDTO.url=baseUrl + "/" + dynamicUrl;
+            urlList.add(fileDTO);
         }
         return ResponseResult.success("上传成功", urlList);
     }

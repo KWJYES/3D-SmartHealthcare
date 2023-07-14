@@ -29,7 +29,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         task.createTime = new Date();
         task.isReasoning = 0;
         save(task);
-        return ResponseResult.success("ok");
+        return ResponseResult.success("ok",task);
     }
 
     @SneakyThrows
@@ -39,8 +39,10 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         queryWrapper.eq(Task::getId, taskId).eq(Task::getUid, Long.parseLong(UserIdThreadLocal.get()));
         String loadPath=fileSavePath+"task\\"+UserIdThreadLocal.get()+"\\"+taskId;
         String targetPath=fileSavePath+"task_done\\"+UserIdThreadLocal.get()+"\\"+taskId;
+        String maskPath=fileSavePath+"task_done\\mask\\"+UserIdThreadLocal.get()+"\\"+taskId;
         FileUtils.deleteDirectory(new File(loadPath));
         FileUtils.deleteDirectory(new File(targetPath));
+        FileUtils.deleteDirectory(new File(maskPath));
         baseMapper.delete(queryWrapper);
         return ResponseResult.success();
     }

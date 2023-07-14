@@ -43,7 +43,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/signUp","/user/login", "/mail/getCaptcha",
-                        "/file/*.pdf","/file/*.nii","/file/*.jpg","/file/*.png",
+                        "/file/*.pdf","/file/*.nii","/file/*.jpg","/file/*.png","/file/*.gz",
                         "/pdf/**","/nii/**","/jpg/**","/png/**",
                         "/task/**","/task_done/**",
                         "/test/**"

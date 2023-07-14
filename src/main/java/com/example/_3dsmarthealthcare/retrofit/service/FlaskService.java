@@ -12,4 +12,10 @@ public interface FlaskService {
     Call<ResponseBody> hello();
     @POST("/reasoning")
     Call<ResponseBody> reasoning(@Query("loadPath") String loadPath,@Query("targetPath") String targetPath);
+
+    @POST("/prepare")
+    Call<ResponseBody> prepare(@Query("image_path") String image_path);
+
+    @POST("/mask")
+    Call<ResponseBody> mask(@Query("image_path") String image_path,@Query("output_path") String output_path);
 }

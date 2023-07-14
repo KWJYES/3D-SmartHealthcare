@@ -44,9 +44,14 @@ public class FileUtil {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        log.info("文件上传，保存位置：" + fileSavePath + fileType + directory);
+        log.info("文件上传，保存位置：" + fileSavePath.replace("-Data\\","-Data") + fileType + directory);
         //3.给文件重新设置一个名字
-        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));//后缀
+        String fn = file.getOriginalFilename();
+        String suffix;
+        if (fn.endsWith(".nii.gz"))
+            suffix = ".nii.gz";
+        else
+            suffix = fn.substring(file.getOriginalFilename().lastIndexOf("."));//后缀
         log.info("文件后缀：{}", suffix);
         String newFileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
         //4.创建这个新文件

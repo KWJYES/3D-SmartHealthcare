@@ -51,6 +51,6 @@ public class TaskController {
     }
     @GetMapping("/getTaskItems")
     public ResponseResult<?> getTaskItems(@RequestParam long id,HttpServletRequest request){
-        return taskItemService.getTaskItemsByTaskId(id, request);
+        return taskItemService.getTaskItemsDtoByTaskId(id, request);
     }
 }

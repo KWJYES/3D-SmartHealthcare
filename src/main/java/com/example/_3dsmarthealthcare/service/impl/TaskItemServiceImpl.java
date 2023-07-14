@@ -35,6 +35,7 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
     @Override
     public ResponseResult<?> appendItems(long taskId, List<File> files, HttpServletRequest request) {
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        List<TaskItemDTO> taskItems=new ArrayList<>();
         for (File file : files) {
             TaskItem taskItem = new TaskItem();
             taskItem.path = fileSavePath + "task\\" + UserIdThreadLocal.get() + "\\" + taskId + "\\" + file.name;
@@ -44,13 +45,14 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
             taskItem.uid = Long.parseLong(UserIdThreadLocal.get());
             taskItem.taskId = taskId;
             save(taskItem);
+            taskItems.add(new TaskItemDTO(taskItem.id,taskItem.url,taskItem.name,taskItem.appendTime,taskItem.uid,taskItem.taskId,taskItem.pid));
             try {
                 FileUtils.copyFile(new java.io.File(file.path), new java.io.File(taskItem.path));
             } catch (IOException e) {
                 return ResponseResult.failure(e.getMessage());
             }
         }
-        return ResponseResult.success();
+        return ResponseResult.success("ok",taskItems);
     }
 
     @Override
@@ -74,26 +76,26 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
         List<TaskItem> resList = new ArrayList<>();
         for (TaskItem taskItem : taskItems) {
             String srcPath = taskItem.path;
-            taskItem.path=taskItem.path.replace("\\task\\", "\\task_done\\");
-            taskItem.path=taskItem.path.replace(".nii", ".nii.gz");
-            taskItem.url=taskItem.url.replace("/task/", "/task_done/");
-            taskItem.url=taskItem.url.replace(".nii", ".nii.gz");
-            taskItem.name=taskItem.name.replace(".nii", ".nii.gz");
+            taskItem.path = taskItem.path.replace("\\task\\", "\\task_done\\");
+//            taskItem.path = taskItem.path.replace(".nii", ".nii.gz");
+            taskItem.url = taskItem.url.replace("/task/", "/task_done/");
+//            taskItem.url = taskItem.url.replace(".nii", ".nii.gz");
+//            taskItem.name = taskItem.name.replace(".nii", ".nii.gz");
 
             FileUtils.deleteQuietly(new java.io.File(srcPath));//删除原来的文件
 
             resList.add(taskItem);
         }
         updateBatchById(resList);
-        List<TaskItemDTO> taskItemDTOS=new ArrayList<>();
-        for (TaskItem taskItem:resList){
-            taskItemDTOS.add(new TaskItemDTO(taskItem.id,taskItem.url,taskItem.name,taskItem.appendTime,taskItem.uid,taskItem.taskId,taskItem.pid));
+        List<TaskItemDTO> taskItemDTOS = new ArrayList<>();
+        for (TaskItem taskItem : resList) {
+            taskItemDTOS.add(new TaskItemDTO(taskItem.id, taskItem.url, taskItem.name, taskItem.appendTime, taskItem.uid, taskItem.taskId, taskItem.pid));
         }
         return taskItemDTOS;
     }
 
     @Override
-    public ResponseResult<?> getTaskItemsByTaskId(long taskId, HttpServletRequest request) {
+    public ResponseResult<?> getTaskItemsDtoByTaskId(long taskId, HttpServletRequest request) {
         LambdaQueryWrapper<TaskItem> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(TaskItem::getTaskId, taskId).eq(TaskItem::getUid, Long.parseLong(UserIdThreadLocal.get()));
         List<TaskItem> taskItems = baseMapper.selectList(queryWrapper);
@@ -105,5 +107,12 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
             taskItemDTOS.add(new TaskItemDTO(taskItem.id, baseUrl + "/" + dynamicUrl, taskItem.name, taskItem.appendTime, taskItem.uid, taskItem.taskId, taskItem.pid));
         }
         return ResponseResult.success("ok", taskItemDTOS);
+    }
+
+    @Override
+    public TaskItem getTaskItemById(long id) {
+        LambdaQueryWrapper<TaskItem> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(TaskItem::getId, id);
+        return getOne(queryWrapper);
     }
 }
