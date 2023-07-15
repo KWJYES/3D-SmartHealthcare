@@ -34,4 +34,28 @@ public class DataProcessingServiceImpl implements DataProcessingService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public String merge(String absolutePath, String path, String outputPath) {
+        try {
+            Response<ResponseBody> response = RetrofitTemplate.getInstance().flaskService.merge(absolutePath,path,outputPath).execute();
+            if (response.body() == null)
+                return "flask response.body is null";
+            return response.body().string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String forda(String path) {
+        try {
+            Response<ResponseBody> response = RetrofitTemplate.getInstance().flaskService.formda(path).execute();
+            if (response.body() == null)
+                return "flask response.body is null";
+            return response.body().string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -7,6 +7,8 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
+import java.util.concurrent.Executor;
+
 public interface FlaskService {
     @GET("/hello")
     Call<ResponseBody> hello();
@@ -18,4 +20,10 @@ public interface FlaskService {
 
     @POST("/mask")
     Call<ResponseBody> mask(@Query("image_path") String image_path,@Query("output_path") String output_path);
+
+    @POST("/merge")
+    Call<ResponseBody> merge(@Query("label1_path") String label1_path,@Query("label2_path") String label2_path,@Query("merged_path") String outputPath);
+
+    @POST("/formda")
+    Call<ResponseBody> formda(@Query("image_path")String path);
 }

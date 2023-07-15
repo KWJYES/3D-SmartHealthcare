@@ -167,7 +167,7 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
     }
 
     @Override
-    public List<File> findFileByIds(List<Integer> fileIds) {
+    public List<File> findNiiFileByIds(List<Integer> fileIds) {
         List<File> fileList = new ArrayList<>();
         String uid = UserIdThreadLocal.get();
         for (Integer fileId : fileIds) {
@@ -192,5 +192,25 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
         queryWrapper.eq(File::getPid, pid).eq(File::getType,FileUtil.pdf);
         List<File> files=baseMapper.selectList(queryWrapper);
         return ResponseResult.success("ok",files);
+    }
+
+    @Override
+    public List<File> findMarkFileByIds(List<Integer> unreasoningNiiIds) {
+        List<File> fileList = new ArrayList<>();
+        String uid = UserIdThreadLocal.get();
+        for (Integer fileId : unreasoningNiiIds) {
+            Long id = Long.parseLong(String.valueOf(fileId));
+            LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(File::getId, id).eq(File::getUid, Long.parseLong(uid)).eq(File::getType,FileUtil.mark);
+            fileList.add(getOne(queryWrapper));
+        }
+        return fileList;
+    }
+
+    @Override
+    public List<File> getMarkNiiByPid(Long pid) {
+        LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(File::getPid, pid).eq(File::getType,FileUtil.mark);
+        return baseMapper.selectList(queryWrapper);
     }
 }

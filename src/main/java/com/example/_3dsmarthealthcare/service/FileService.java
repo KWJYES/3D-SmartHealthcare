@@ -20,9 +20,13 @@ public interface FileService extends IService<File> {
     ResponseResult<?> getDetail(long fileId, HttpServletRequest request);
     ResponseResult<?> deleteFile(List<Long> fileId);
 
-    List<File> findFileByIds(List<Integer> fileIds);
+    List<File> findNiiFileByIds(List<Integer> fileIds);
 
     List<File> getNiiByPid(Long pid);
 
     ResponseResult<?> findPdfByPid(int pid);
+
+    List<File> findMarkFileByIds(List<Integer> unreasoningNiiIds);
+
+    List<File> getMarkNiiByPid(Long pid);
 }

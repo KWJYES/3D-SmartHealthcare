@@ -34,7 +34,7 @@ public class TaskController {
         Long taskId= Long.parseLong(String.valueOf(dataMap.get("taskId")));
         List fileIds= (List) dataMap.get("fileIds");
         if (taskId==null||fileIds==null) return ResponseResult.failure("请求数据格式错误");
-        List<File> fileList=fileService.findFileByIds(fileIds);
+        List<File> fileList=fileService.findNiiFileByIds(fileIds);
         return taskItemService.appendItems(taskId,fileList,request );
     }
     @PostMapping("/removeInns")

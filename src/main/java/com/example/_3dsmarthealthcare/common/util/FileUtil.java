@@ -21,7 +21,9 @@ public class FileUtil {
     public static final String imgStr = "/img/";
     public static final int img = 1;
     public static final String pdfStr = "/pdf/";
+    public static final String markStr = "/mark/";
     public static final int pdf = 2;
+    public static final int mark = 3;
 
 
     /**

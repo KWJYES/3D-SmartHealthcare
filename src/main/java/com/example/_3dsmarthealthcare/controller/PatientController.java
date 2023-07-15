@@ -25,11 +25,9 @@ import org.thymeleaf.context.Context;
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/patient")
@@ -96,7 +94,7 @@ public class PatientController {
             return ResponseResult.failure("patientId is null,请检查请求体参数");
         HashMap<String, Object> hashMap = new HashMap<>();
         if (unreasoningNiiIds.size() != 0) {
-            List<File> files = fileService.findFileByIds(unreasoningNiiIds);
+            List<File> files = fileService.findNiiFileByIds(unreasoningNiiIds);
             files.forEach(file -> file.pid = pid);
             fileService.updateBatchById(files);
             hashMap.put("unreasoningNii", files);
@@ -114,7 +112,10 @@ public class PatientController {
             hashMap.put("maskNii", maskItems);
         }
         if (markNiiIds.size() != 0) {
-//            hashMap.put("markNii",files);
+            List<File> files = fileService.findMarkFileByIds(unreasoningNiiIds);
+            files.forEach(file -> file.pid = pid);
+            fileService.updateBatchById(files);
+            hashMap.put("markNii",files);
         }
         return ResponseResult.success("ok", hashMap);
     }
@@ -229,7 +230,8 @@ public class PatientController {
         hashMap.put("reasonedNii", taskItems);
         List<MaskItem> maskItems = maskItemService.findMaskItemByPids(pid);
         hashMap.put("maskNii", maskItems);
-        hashMap.put("markNii", null);
+        List<File> markNiis = fileService.getMarkNiiByPid(pid);
+        hashMap.put("markNii", markNiis);
         return ResponseResult.success("ok", hashMap);
     }
 }
