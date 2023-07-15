@@ -12,4 +12,5 @@ public interface PatientService extends IService<Patient> {
     ResponseResult<?> delete(long id, long uid);
 
     List<Patient> getAll(long parseLong);
+
 }

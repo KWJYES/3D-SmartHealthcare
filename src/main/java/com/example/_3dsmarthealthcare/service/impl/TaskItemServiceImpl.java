@@ -128,4 +128,11 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
         }
         return taskItems;
     }
+
+    @Override
+    public List<TaskItem> findTaskItemByPid(Long pid) {
+        LambdaQueryWrapper<TaskItem> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(TaskItem::getPid, pid);
+        return baseMapper.selectList(queryWrapper);
+    }
 }

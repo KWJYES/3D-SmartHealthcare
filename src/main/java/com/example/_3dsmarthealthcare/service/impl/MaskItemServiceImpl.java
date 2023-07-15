@@ -26,4 +26,11 @@ public class MaskItemServiceImpl extends ServiceImpl<MaskItemMapper, MaskItem> i
         }
         return maskItems;
     }
+
+    @Override
+    public List<MaskItem> findMaskItemByPids(Long pid) {
+        LambdaQueryWrapper<MaskItem> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(MaskItem::getPid, pid);
+        return baseMapper.selectList(queryWrapper);
+    }
 }

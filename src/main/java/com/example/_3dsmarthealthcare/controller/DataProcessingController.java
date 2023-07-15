@@ -97,4 +97,9 @@ public class DataProcessingController {
         }
         return ResponseResult.failure(res);
     }
+
+    @PostMapping("/merge")
+    public ResponseResult<?> merge(@RequestBody HashMap<String,Object> dataMap){
+        return ResponseResult.success();
+    }
 }

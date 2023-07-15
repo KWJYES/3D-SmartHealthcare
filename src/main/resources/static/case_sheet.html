@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>病例报告</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333333;
+            background-color: #F5F5F5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            text-align: center;
+            border-bottom: 2px solid #CCCCCC;
+            padding-bottom: 10px;
+        }
+
+        label::after {
+            content: ":";
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin: 0 0 10px;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 28px;
+            line-height: 1.2;
+            color: #333333;
+        }
+
+        h2 {
+            font-size: 24px;
+            line-height: 1.2;
+            color: #333333;
+        }
+
+        h3 {
+            font-size: 20px;
+            line-height: 1.2;
+            color: #333333;
+        }
+
+        h4 {
+            font-size: 16px;
+            line-height: 1.2;
+            color: #333333;
+        }
+
+        h5 {
+            font-size: 14px;
+            line-height: 1.2;
+            color: #333333;
+        }
+
+        h6 {
+            font-size: 12px;
+            line-height: 1.2;
+            color: #333333;
+        }
+
+        p {
+            margin: 0 0 10px;
+            padding: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #CCCCCC;
+            border-radius: 3px;
+            background-color: #FFFFFF;
+            color: #333333;
+            font-size: 14px;
+            line-height: 1.5;
+            box-sizing: border-box;
+        }
+
+        select {
+            height: 40px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6'%3E%3Cpath d='M6 6L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px;
+            padding-right: 30px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        input[type="submit"] {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            font-size: 14px;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3E8E41;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -5px;
+        }
+
+        .col {
+            flex: 1;
+            padding: 0 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>病例报告</h1>
+    <form>
+        <h2>患者信息</h2>
+        <div class="row">
+            <div class="col">
+                <label for="patient_name">姓名</label>
+                <input th:value="${patient_name}" type="text" id="patient_name" name="patient_name" required>
+            </div>
+            <div class="col">
+                <label for="patient_gender">性别</label>
+                <input th:value="${patient_gender}" type="text" id="patient_gender" name="patient_gender" required>
+            </div>
+            <div class="col">
+                <label for="patient_age">年龄</label>
+                <input th:value="${patient_age}" type="number" id="patient_age" name="patient_age" required>
+            </div>
+            <div class="col">
+                <label for="patient_phone">电话</label>
+                <input th:value="${patient_phone}" type="text" id="patient_phone" name="patient_phone" required>
+            </div>
+        </div>
+
+        <label for="patient_address">地址</label>
+        <textarea th:text="${patient_address}" id="patient_address" name="patient_address" required></textarea>
+
+        <h2>就诊信息</h2>
+        <label for="visit_date">就诊日期</label>
+        <input th:value="${visit_date}" type="date" id="visit_date" name="visit_date" required>
+
+        <label for="diagnosis">病灶结果</label>
+        <textarea th:text="${diagnosis}" id="diagnosis" name="diagnosis" required></textarea>
+
+        <h2>医生建议</h2>
+        <textarea th:text="${doctor_advice}" id="doctor_advice" name="doctor_advice" required></textarea>
+
+
+    </form>
+</div>
+</body>
+</html>

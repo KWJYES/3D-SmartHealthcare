@@ -20,4 +20,6 @@ public interface TaskItemService extends IService<TaskItem> {
     TaskItem getTaskItemById(long parseLong);
 
     List<TaskItem> findTaskItemByIds(List<Integer> reasonedNiiIds);
+
+    List<TaskItem> findTaskItemByPid(Long pid);
 }

@@ -21,4 +21,8 @@ public interface FileService extends IService<File> {
     ResponseResult<?> deleteFile(List<Long> fileId);
 
     List<File> findFileByIds(List<Integer> fileIds);
+
+    List<File> getNiiByPid(Long pid);
+
+    ResponseResult<?> findPdfByPid(int pid);
 }

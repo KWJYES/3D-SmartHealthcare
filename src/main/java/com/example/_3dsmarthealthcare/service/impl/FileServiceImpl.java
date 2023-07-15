@@ -44,12 +44,12 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
     public ResponseResult<?> uploadNii(MultipartFile[] files, HttpServletRequest request) {
         List<FileDTO> urlList = new ArrayList<>();
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file";
-        if (files==null)
+        if (files == null)
             return ResponseResult.failure("fileList为空");
-        log.info("文件个数={}",files.length);
+        log.info("文件个数={}", files.length);
         for (MultipartFile file : files) {
             String fn = file.getOriginalFilename();
-            log.info("文件名称={}",fn);
+            log.info("文件名称={}", fn);
             if (fn == null)
                 return ResponseResult.failure("上传失败,上传文件名不能为空");
             if (!(fn.endsWith(".nii") || fn.endsWith(".nii.gz")))
@@ -76,8 +76,8 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
             String dynamicUrl = fileUtil.getDynamicUrl(UserIdThreadLocal.get(), suffix);
             //用redis设置动态url有效时间为30min
             redisUtil.set(dynamicUrl, url, 2, TimeUnit.HOURS);
-            FileDTO fileDTO=new FileDTO(niiFile);
-            fileDTO.url=baseUrl + "/" + dynamicUrl;
+            FileDTO fileDTO = new FileDTO(niiFile);
+            fileDTO.url = baseUrl + "/" + dynamicUrl;
             urlList.add(fileDTO);
         }
         return ResponseResult.success("上传成功", urlList);
@@ -173,9 +173,24 @@ public class FileServiceImpl extends ServiceImpl<NiiFileMapper, File> implements
         for (Integer fileId : fileIds) {
             Long id = Long.parseLong(String.valueOf(fileId));
             LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(File::getId, id).eq(File::getUid, Long.parseLong(uid));
+            queryWrapper.eq(File::getId, id).eq(File::getUid, Long.parseLong(uid)).eq(File::getType,FileUtil.nii);
             fileList.add(getOne(queryWrapper));
         }
         return fileList;
+    }
+
+    @Override
+    public List<File> getNiiByPid(Long pid) {
+        LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(File::getPid, pid).eq(File::getType,FileUtil.nii);
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public ResponseResult<?> findPdfByPid(int pid) {
+        LambdaQueryWrapper<File> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(File::getPid, pid).eq(File::getType,FileUtil.pdf);
+        List<File> files=baseMapper.selectList(queryWrapper);
+        return ResponseResult.success("ok",files);
     }
 }

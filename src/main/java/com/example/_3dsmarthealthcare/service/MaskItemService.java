@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface MaskItemService extends IService<MaskItem> {
     List<MaskItem> findMaskItemByIds(List<Integer> maskNiiIds);
+
+    List<MaskItem> findMaskItemByPids(Long pid);
 }
