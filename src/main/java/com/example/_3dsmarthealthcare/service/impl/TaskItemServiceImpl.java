@@ -115,4 +115,17 @@ public class TaskItemServiceImpl extends ServiceImpl<TaskItemMapper, TaskItem> i
         queryWrapper.eq(TaskItem::getId, id);
         return getOne(queryWrapper);
     }
+
+    @Override
+    public List<TaskItem> findTaskItemByIds(List<Integer> reasonedNiiIds) {
+        List<TaskItem> taskItems = new ArrayList<>();
+        String uid = UserIdThreadLocal.get();
+        for (Integer fileId : reasonedNiiIds) {
+            Long id = Long.parseLong(String.valueOf(fileId));
+            LambdaQueryWrapper<TaskItem> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(TaskItem::getId, id).eq(TaskItem::getUid, Long.parseLong(uid));
+            taskItems.add(getOne(queryWrapper));
+        }
+        return taskItems;
+    }
 }
