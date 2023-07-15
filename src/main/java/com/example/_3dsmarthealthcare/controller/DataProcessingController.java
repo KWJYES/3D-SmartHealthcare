@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,7 +80,16 @@ public class DataProcessingController {
             dir.mkdirs();
         String res = dataProcessingService.mask(image_path, out_path);
         if (res.equals("ok")) {
-            MaskItem maskItem = new MaskItem(taskItem);
+            MaskItem maskItem = new MaskItem();
+            maskItem.name=taskItem.name;
+            maskItem.id = taskItem.id;
+            maskItem.url = taskItem.url.replace("/task_done/","/task_done/mask/");
+            maskItem.path = taskItem.path.replace("\\task_done\\","\\task_done\\mask\\");
+            maskItem.maskTime = new Date();
+            maskItem.uid = taskItem.uid;
+            maskItem.taskId = taskItem.taskId;
+            maskItem.pid = taskItem.pid;
+            maskItem.taskItemId = taskItem.id;
             //save
             maskItemService.save(maskItem);
             MaskItemDTO maskItemDTO = new MaskItemDTO(maskItem);

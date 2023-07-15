@@ -81,27 +81,29 @@ public class PatientController {
         Integer pid=(Integer) dataMap.get("patientId");
         if (pid==null)
             return ResponseResult.failure("patientId is null,请检查请求体参数");
+        HashMap<String,Object> hashMap=new HashMap<>();
         if (unreasoningNiiIds.size() != 0) {
             List<File> files = fileService.findFileByIds(unreasoningNiiIds);
             files.forEach(file -> file.pid=pid);
             fileService.updateBatchById(files);
+            hashMap.put("unreasoningNii",files);
         }
         if (reasonedNiiIds.size()!=0){
             List<TaskItem> taskItems=taskItemService.findTaskItemByIds(reasonedNiiIds);
             taskItems.forEach(taskItem -> taskItem.pid=pid);
             taskItemService.updateBatchById(taskItems);
+            hashMap.put("reasonedNii",taskItems);
         }
         if (maskNiiIds.size()!=0){
             List<MaskItem> maskItems=maskItemService.findMaskItemByIds(maskNiiIds);
             maskItems.forEach(maskItem -> maskItem.pid=pid);
             maskItemService.updateBatchById(maskItems);
+            hashMap.put("maskNii",maskItems);
         }
         if (markNiiIds.size()!=0){
-
+//            hashMap.put("markNii",files);
         }
-
-
-        return ResponseResult.success();
+        return ResponseResult.success("ok",hashMap);
     }
 
     @PostMapping("/removeNii")

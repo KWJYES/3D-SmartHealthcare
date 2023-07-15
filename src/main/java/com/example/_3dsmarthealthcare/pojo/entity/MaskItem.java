@@ -21,15 +21,4 @@ public class MaskItem {
     public long pid;
     public long taskItemId;
 
-    public MaskItem(TaskItem taskItem) {
-        this.name=taskItem.name;
-        this.id = taskItem.id;
-        this.url = taskItem.url.replace("/task_done/","/task_done/mask/");
-        this.path = taskItem.path.replace("\\task_done\\","\\task_done\\mask\\");
-        this.maskTime = new Date();
-        this.uid = taskItem.uid;
-        this.taskId = taskItem.taskId;
-        this.pid = taskItem.pid;
-        this.taskItemId = taskItem.id;
-    }
 }
