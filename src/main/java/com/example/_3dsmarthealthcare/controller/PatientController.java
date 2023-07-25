@@ -1,5 +1,6 @@
 package com.example._3dsmarthealthcare.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example._3dsmarthealthcare.common.UserIdThreadLocal;
 import com.example._3dsmarthealthcare.common.util.FileUtil;
 import com.example._3dsmarthealthcare.pojo.dto.ResponseResult;
@@ -58,6 +59,8 @@ public class PatientController {
         }
         patient.registrationDate = new Date();
         patient.uid = Long.parseLong(UserIdThreadLocal.get());
+        patient.phone = (String) dataMap.get("phone");
+        patient.address = (String) dataMap.get("address");
         patientService.save(patient);
         return ResponseResult.success("ok", patient);
     }
@@ -115,7 +118,7 @@ public class PatientController {
             List<File> files = fileService.findMarkFileByIds(unreasoningNiiIds);
             files.forEach(file -> file.pid = pid);
             fileService.updateBatchById(files);
-            hashMap.put("markNii",files);
+            hashMap.put("markNii", files);
         }
         return ResponseResult.success("ok", hashMap);
     }
@@ -170,7 +173,7 @@ public class PatientController {
         file.path = fileSavePath + "pdf\\userId_" + file.uid + "\\" + file.name + ".pdf";
         //协议 :// ip地址 ：端口号 / 文件目录(/fileType/userId/xxx.nii)
         file.url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/userId_" + file.uid + "/" + file.name + ".pdf";
-        java.io.File f=new java.io.File(file.path);
+        java.io.File f = new java.io.File(file.path);
         if (!f.getParentFile().exists())
             f.getParentFile().mkdirs();
         try (FileOutputStream outputStream = new FileOutputStream(file.path)) {
@@ -201,6 +204,11 @@ public class PatientController {
             converterProperties.setFontProvider(provider);
             HtmlConverter.convertToPdf(html, outputStream, converterProperties);
             fileService.save(file);
+            LambdaQueryWrapper<Patient> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Patient::getId, file.pid);
+            Patient patient = patientService.getOne(queryWrapper);
+            patient.diagnosis = diagnosis;
+            patientService.updateById(patient);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -210,7 +218,7 @@ public class PatientController {
 
     @GetMapping("/getRecordBook")
     public ResponseResult<?> getPdf(@RequestParam int pid) {
-        Long id=Long.parseLong(String.valueOf(pid));
+        Long id = Long.parseLong(String.valueOf(pid));
         return fileService.findPdfByPid(pid);
     }
 
